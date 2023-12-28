@@ -322,6 +322,7 @@ class DirtyJSONLoader {
           }
         }
 
+        console.log('Line:325', this.expecting, this.content, this.pos);
         throw new JSONDecodeError(this.expecting, this.content, this.pos);
     }
   }
@@ -368,7 +369,11 @@ class DirtyJSONLoader {
         chunks.push(content);
       }
 
-      if (terminator === terminatingCharacter) {
+      if (
+        terminator === terminatingCharacter ||
+        (terminatingCharacter === '"' && terminator === "'") ||
+        (terminatingCharacter === "'" && terminator === '"')
+      ) {
         break;
       } else if (terminator !== '\\') {
         chunks.push(terminator);
